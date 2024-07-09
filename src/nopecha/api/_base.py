@@ -15,6 +15,7 @@ from .types import (
     RecognitionRequest,
     RecognitionResponse,
     StatusResponse,
+    TextCaptchaRecognitionRequest,
     TokenRequest,
     TokenResponse,
     TurnstileTokenRequest,
@@ -248,6 +249,15 @@ class APIClient(ABC, APIClientMixin):
             "type": "funcaptcha",
             "task": task,
             "image_data": [image],
+        }
+        return typing.cast(RecognitionResponse, self.recognize_raw(body))
+
+    def recognize_textcaptcha(self, image: str) -> RecognitionResponse:
+        validate_image(image)
+
+        body: TextCaptchaRecognitionRequest = {
+            "type": "textcaptcha",
+            "image_data": (image,),
         }
         return typing.cast(RecognitionResponse, self.recognize_raw(body))
 
@@ -523,6 +533,15 @@ class AsyncAPIClient(APIClientMixin):
             "type": "funcaptcha",
             "task": task,
             "image_data": [image],
+        }
+        return typing.cast(RecognitionResponse, await self.recognize_raw(body))
+
+    async def recognize_textcaptcha(self, image: str) -> RecognitionResponse:
+        validate_image(image)
+
+        body: TextCaptchaRecognitionRequest = {
+            "type": "textcaptcha",
+            "image_data": (image,),
         }
         return typing.cast(RecognitionResponse, await self.recognize_raw(body))
 

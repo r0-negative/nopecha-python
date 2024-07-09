@@ -33,9 +33,14 @@ class Proxy(typing.TypedDict):
 
 
 class ImageRecognitionRequest(typing.TypedDict):
-    type: typing.Literal["textcaptcha", "funcaptcha", "hcaptcha", "recaptcha"]
+    type: typing.Literal["funcaptcha", "hcaptcha", "recaptcha"]
     task: str
     image_data: typing.List[str]
+
+
+class TextCaptchaRecognitionRequest(typing.TypedDict):
+    type: typing.Literal["textcaptcha"]
+    image_data: typing.Tuple[str]
 
 
 class HCaptchaAreaSelectRequest(typing.TypedDict):
@@ -60,6 +65,7 @@ class AudioRecognitionRequest(typing.TypedDict):
 
 RecognitionRequest = typing.Union[
     ImageRecognitionRequest,
+    TextCaptchaRecognitionRequest,
     HCaptchaMultipleChoiceRequest,
     HCaptchaAreaSelectRequest,
     AudioRecognitionRequest,
