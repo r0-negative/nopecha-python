@@ -340,11 +340,7 @@ class APIClient(ABC, APIClientMixin):
         useragent: typing.Optional[str] = None,
         action: typing.Optional[str] = None,
     ) -> TokenResponse:
-        if not enterprise and action is not None:
-            logger.warning(
-                "you are setting action for non-enterprise recaptcha, this makes no sense"
-            )
-        elif enterprise and proxy is None:
+        if enterprise and proxy is None:
             logger.warning(
                 "you are using enterprise recaptcha without a proxy, probably won't work"
             )
