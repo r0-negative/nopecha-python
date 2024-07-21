@@ -53,10 +53,10 @@ def build(
         raise RuntimeError(f"Could not find download link for {branch}")
 
     if outpath.exists():
-        manifest = loads((outpath / "manifest.json").read_text())
-        if manifest["version_name"] != latest_release["tag_name"]:
+        manifest_file = loads((outpath / "manifest.json").read_text())
+        if manifest_file["version_name"] != latest_release["tag_name"]:
             print(
-                f"[NopeCHA] {latest_release['tag_name']} is available, you got {manifest['version_name']}"
+                f"[NopeCHA] {latest_release['tag_name']} is available, you got {manifest_file['version_name']}"
             )
             download_release(download_url, outpath)
 
@@ -64,13 +64,14 @@ def build(
         print(f"[NopeCHA] Downloading {latest_release['tag_name']}")
         download_release(download_url, outpath)
 
-    manifest = loads((outpath / "manifest.json").read_text())
-    manifest["nopecha"].update(manifest)
-    (outpath / "manifest.json").write_text(dumps(manifest, indent=2))
+    manifest_file = loads((outpath / "manifest.json").read_text())
+    manifest_file["nopecha"].update(manifest)
+    print(manifest_file["nopecha"])
+    (outpath / "manifest.json").write_text(dumps(manifest_file, indent=2))
 
     print(f"[NopeCHA] Built {branch} extension to {outpath}")
 
-    return str(outpath)
+    return str(outpath.absolute())
 
 
 def build_chromium(
