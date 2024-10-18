@@ -66,7 +66,6 @@ def build(
 
     manifest_file = loads((outpath / "manifest.json").read_text())
     manifest_file["nopecha"].update(manifest)
-    print(manifest_file["nopecha"])
     (outpath / "manifest.json").write_text(dumps(manifest_file, indent=2))
 
     print(f"[NopeCHA] Built {branch} extension to {outpath}")
